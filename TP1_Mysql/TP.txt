@@ -33,3 +33,13 @@ create table client_non_salarie(id_non_salarie int not null primary key auto_inc
     -> nom varchar(25) not null , prenom varchar(25) not null ,
     -> adresse varchar(25) not null , telephone varchar(15) not null ,
     -> email varchar(25) not null );
+
+
+// creation de la table client moral 
+MariaDB [projetbanque]> create table client_moral(id_client_moral int not null,
+    -> nom varchar(45) not null,
+    -> adresse varchar(25) not null,
+    -> telephone varchar(25) not null,
+    -> type_entreprise varchar(25) not null,
+    -> domaine_activite varchar(20) not null);
+
