@@ -1,0 +1,35 @@
+ //Creation Base de donnees 
+ create database banque_peuple;
+
+//creaton table client salarie 
+create table client_salarie(id_salarie int not null primary key auto_increment ,
+    -> nom varchar(45),
+    -> prenom varchar(45),
+    -> adresse varchar(20) not null,
+    -> telephone varchar(20) not null ,
+    -> email varchar(15) ,
+    -> profession varchar(25) ,
+    -> salaire double not null ,
+    -> nom_entreprise varchar(25) not null,
+    -> adresse_entreprise varchar(25) not null);
+
+
+// creation table clientNonSalarie 
+create table client_non_salarie(id_non_salarie int not null primary key auto_increment,
+    -> nom varchar(25) not null , prenom varchar(25) not null,
+    -> adresse varchar(25) not null , telephone varchar(25) not null ,
+    -> email varchar(20) , activite_client varchar(20));
+
+
+
+// creation table responsable compte 
+ create table responsable_compte (id_responsable int not null primary key auto_increment ,
+    -> nom varchar(25) , prenom varchar(25) , adresse varchar(25),
+    -> telephone varchar(20) not null , email varchar(25) not null );
+
+
+// creation table caissiere 
+ create table caissiere(id_caissiere int not null primary key auto_increment ,
+    -> nom varchar(25) not null , prenom varchar(25) not null ,
+    -> adresse varchar(25) not null , telephone varchar(15) not null ,
+    -> email varchar(25) not null );
