@@ -43,3 +43,60 @@ MariaDB [projetbanque]> create table client_moral(id_client_moral int not null,
     -> type_entreprise varchar(25) not null,
     -> domaine_activite varchar(20) not null);
 
+
+
+//creation table compte epargne 
+create table compte_epargne(id_compte int not null primary key auto_increment , num_compte varchar(25) , num_agence int not null ,
+    -> cle_rib int not null ,
+    -> frais_compte double not null);
+
+
+// creation table compte Courant 
+ create table compte_courant (id_compte int not null primary key auto_increment ,
+    -> num_compte varchar(25) ,
+    -> num_agence int not null,
+    -> cle_rib int not null,
+    -> adresse_employeur varchar(25),
+    -> nom_entreprise varchar(25),
+    -> raison_social varchar(25),
+    -> agios double not null);
+
+- ajout d'une colonne dans la table compte courant 
+alter table compte_courant add column frais_compte double not null;
+
+
+// 3)creation compte bloque 
+create table compte_bloque(id_compte int not null primary key auto_increment ,
+    -> num_compte varchar(25) not null,
+    -> num_agence varchar(25) not null,
+    -> cle_rib int not null,
+    -> frais_compte double not null,
+    -> delai_deblocage date);
+
+
+//creation table etat_compte 
+ create table etat_compte(id_etat int not null primary key auto_increment,
+    -> etat_compte varchar(25) not null ,
+    -> date_changement_etat date);
+
+//creation table profil employes 
+ create table profil_employes(id_employe int not null primary key auto_increment ,
+    -> nom_fonction varchar(25) not null,
+    -> date_debut_emploi  date );
+
+
+//creation table administrateur 
+create table administrateur(id_admin int not null primary key auto_increment ,
+    -> nom varchar(25) not null , prenom varchar(25) not null ,
+    -> adresse varchar(25) not null , telephone varchar(25) not null , email varchar(25) not null );
+
+
+//creation table_agence 
+create table table_agence(numero_agence int not null primary key auto_increment , adresse varchar(25) not null );
+
+//creation client moral 
+ create table client_moral(id_entreprise int not null primary key auto_increment ,
+    -> nom varchar(25) not null , adresse varchar(25) not null ,
+    -> telephone varchar(25) not null , email varchar(25) not null,
+    -> type_entreprise varchar(25) not null , activite_entreprise varchar(25) not null );
+
