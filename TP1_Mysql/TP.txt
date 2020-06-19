@@ -12,6 +12,10 @@ create table client_salarie(id_salarie int not null primary key auto_increment ,
     -> salaire double not null ,
     -> nom_entreprise varchar(25) not null,
     -> adresse_entreprise varchar(25) not null);
+alter table client_salarie drop column nom, drop column adresse , drop column telephone , drop column email ,
+    -> add column idClient int not null ;
+----------cle etrangere cl_salarie 
+alter table client_salarie add constraint foreign key(idClient) references clients(idClient);
 
 
 // creation table clientNonSalarie 
@@ -19,6 +23,10 @@ create table client_non_salarie(id_non_salarie int not null primary key auto_inc
     -> nom varchar(25) not null , prenom varchar(25) not null,
     -> adresse varchar(25) not null , telephone varchar(25) not null ,
     -> email varchar(20) , activite_client varchar(20));
+alter table client_non_salarie drop column nom , drop column adresse , drop column telephone ,
+    -> drop column email , add column idClient int not null ;
+----cle etrangere client_non_salarie
+ alter table client_non_salarie add constraint foreign key(idClient) references clients(idClient);
 
 
 
@@ -26,6 +34,10 @@ create table client_non_salarie(id_non_salarie int not null primary key auto_inc
  create table responsable_compte (id_responsable int not null primary key auto_increment ,
     -> nom varchar(25) , prenom varchar(25) , adresse varchar(25),
     -> telephone varchar(20) not null , email varchar(25) not null );
+alter table responsable_compte drop column nom , drop column prenom , drop column adresse,
+    -> drop column telephone , drop column email , add column mat_respoCompte varchar(25) not null;
+-----------cle etrangere table respoCompte 
+alter table responsable_compte add constraint foreign key(idEmp) references  employes(idEmploye);
 
 
 // creation table caissiere 
@@ -33,6 +45,11 @@ create table client_non_salarie(id_non_salarie int not null primary key auto_inc
     -> nom varchar(25) not null , prenom varchar(25) not null ,
     -> adresse varchar(25) not null , telephone varchar(15) not null ,
     -> email varchar(25) not null );
+alter table caissiere drop column nom , drop column prenom , drop column adresse,
+    -> drop column telephone , drop column email , add column mat_caissiere varchar(25) not null ,  add column idEmp int not null,
+	-> add column idEmp int not null;
+----- cle etrangere table caissiere 
+alter table caissiere add constraint foreign key(idEmp) references employes(idEmploye);
 
 
 // creation de la table client moral 
@@ -42,13 +59,23 @@ MariaDB [projetbanque]> create table client_moral(id_client_moral int not null,
     -> telephone varchar(25) not null,
     -> type_entreprise varchar(25) not null,
     -> domaine_activite varchar(20) not null);
+alter table client_moral drop column nom,drop column adresse ,
+    -> drop column telephone , drop column email,
+    -> add column idClient int not null;
 
+-----cle etrangere Cl_moral
+ alter table client_moral add constraint foreign key(idClient) references clients(idClient);
 
 
 //creation table compte epargne 
 create table compte_epargne(id_compte int not null primary key auto_increment , num_compte varchar(25) , num_agence int not null ,
     -> cle_rib int not null ,
     -> frais_compte double not null);
+alter table compte_epargne drop column num_compte , drop column cle_rib , drop column num_agence ,change id_compte id_compte_epargne int not null auto_increment;
+alter table compte_epargne add column id_compte int not null ;
+
+------------cle etranger C_epargne 
+alter table compte_epargne add constraint foreign key(id_compte) references comptes(id_compte);
 
 
 // creation table compte Courant 
@@ -63,40 +90,102 @@ create table compte_epargne(id_compte int not null primary key auto_increment , 
 
 - ajout d'une colonne dans la table compte courant 
 alter table compte_courant add column frais_compte double not null;
+alter table compte_courant drop column num_compte , drop column num_agence ,drop column cle_rib ;
+alter table compte_courant change id_compte id_compte_courant int not null auto_increment;
+alter table compte_courant add column id_compte int not null;
+ alter table compte_courant drop column frais_compte;
+--------- cle etrangere 
+ alter table compte_courant add constraint foreign key(id_compte) references comptes(id_compte);
 
 
-// 3)creation compte bloque 
+// creation compte bloque 
 create table compte_bloque(id_compte int not null primary key auto_increment ,
     -> num_compte varchar(25) not null,
     -> num_agence varchar(25) not null,
     -> cle_rib int not null,
     -> frais_compte double not null,
     -> delai_deblocage date);
+alter table compte_bloque drop column num_compte;
+alter table compte_bloque drop column num_agence;
+ alter table compte_bloque modify column id_compte int auto_increment;
+ alter table compte_bloque add column id_compte_bloque int not null auto_increment primary key ;
+ alter table compte_bloque add column id_compte int not null ;
+ alter table compte_bloque drop column cle_rib;
+-------cle etrangere c_bloque 
+ alter table compte_bloque add constraint foreign key(id_compte) references comptes(id_compte);
 
 
 //creation table etat_compte 
  create table etat_compte(id_etat int not null primary key auto_increment,
     -> etat_compte varchar(25) not null ,
     -> date_changement_etat date);
+alter table etat_compte add column id_compte int not null;
+----------cle etrangere etat_compte 
+alter table etat_compte add constraint foreign key(id_compte) references comptes(id_compte);
 
 //creation table profil employes 
  create table profil_employes(id_employe int not null primary key auto_increment ,
     -> nom_fonction varchar(25) not null,
     -> date_debut_emploi  date );
 
+alter table profil_employes change id_employe id_profil_employe int not null auto_increment;
+ alter table profils_employes add column idEmp int not null;
+alter table profil_employes add constraint foreign key(idEmp) references employes(idEmploye);
+
 
 //creation table administrateur 
 create table administrateur(id_admin int not null primary key auto_increment ,
     -> nom varchar(25) not null , prenom varchar(25) not null ,
     -> adresse varchar(25) not null , telephone varchar(25) not null , email varchar(25) not null );
+alter table administrateur drop column nom , drop column prenom , drop column adresse ,
+    -> drop column telephone , drop column email , add column mat_admin varchar(25) not null,
+    -> add column idEmp int not null;
+-----cle etrangere administrateur 
+ alter table administrateur add constraint foreign key(idEmp) references employes(idEmploye);
 
 
 //creation table_agence 
 create table table_agence(numero_agence int not null primary key auto_increment , adresse varchar(25) not null );
+rename table table_agence to agences;
+alter table agences change numero_agence id_agence int not null auto_increment ;
+ alter table agences add column numero_agence varchar(25) not null;
 
 //creation client moral 
  create table client_moral(id_entreprise int not null primary key auto_increment ,
     -> nom varchar(25) not null , adresse varchar(25) not null ,
     -> telephone varchar(25) not null , email varchar(25) not null,
     -> type_entreprise varchar(25) not null , activite_entreprise varchar(25) not null );
+
+// table operations Comptes 
+ create table operation_comptes(id_op_compte int not null primary key auto_increment,
+    -> id_caissiere int not null ,id_compte int not null,
+    -> type_operation varchar(25) not null , montant_operation int not null,
+    -> date_operation date , constraint foreign key(id_caissiere) references caissiere(id_caissiere));
+
+ alter table operation_comptes add constraint foreign key (id_compte) references comptes(id_compte);
+
+
+//creation table comptes 
+ create table comptes (id_compte int not null primary key auto_increment , num_compte varchar(25) not null ,
+    -> cle_rib int not null ,
+    -> num_agence varchar(25) not null );
+
+
+
+// creation Table CLient  
+ create table clients(idClient int not null primary key auto_increment ,
+    -> nom varchar(25) not null ,
+    -> adresse varchar(25) not null,
+    -> telephone varchar(25) not null,
+    -> email varchar(25) not null );
+
+
+//creation table employes 
+ create table employes(idEmploye int not null primary key auto_increment ,
+    -> nom varchar(25) not null , prenom varchar(25) not null , adresse varchar(25) not null,
+    -> telephone varchar(25) not null , email varchar(25) not null);
+
+alter table employes add column idagencEmploye int not null;
+
+alter table employes add constraint foreign key(idagencEmploye) references agences(id_agence);
 
